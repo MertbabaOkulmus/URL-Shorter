@@ -23,15 +23,31 @@ app.get("/",(req,res)=>{
 app.post("/",(req,res)=>{
    // console.log("post request");
        var ojlLink = req.body.orjinalLink
+       var kisaLink = ojlLink[ojlLink.length-2] + Date.now().toString().substring(9,4) + ojlLink[ojlLink.length-5]
+       //console.log(object)
        var yeni_kayit =new  Article({
-           ojlLink:ojlLink
+           ojlLink:ojlLink,
+           kisaLink:kisaLink
        })
-       console.log(ojlLink);
+       //console.log(ojlLink);
        yeni_kayit.save((err)=>{
            if(err) throw err
-           console.log(req.body);
+           //console.log(req.body);
        })
-    res.json();
+    res.json(kisaLink); // index.html burdaki veriyi respons olarak karşılayıp kısa linki ekrana yansıtacaktır
+})
+
+app.get("/:url",(req,res)=>{
+    const url= req.params.url;
+    console.log(url);
+    Article.findOne({"kisaLink":url},(err,request)=>{
+        if(err) throw err
+        console.log(request.ojlLink)
+        if(request.length > 0) return res.redirect(request.ojlLink);
+        else return res.send("Kısa link bulunamadı!") 
+    }) 
+    res.sendFile(__dirname + "/views/index.html");
+
 })
 
 app.listen(3000);

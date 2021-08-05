@@ -16,6 +16,9 @@
     <input type="text" id="orjinalLink" />
     <button onclick="kisalt()">Kısalt</button>
 
+    <h2>Shorter Link</h2>
+    <p id="shortLink"></p>
+
     <script>
       function kisalt() {
         const orjinalLink = document.getElementById("orjinalLink");
@@ -34,6 +37,7 @@
           .then((res) => res.json())
           .then((reponse) => {
             console.log(reponse);
+            document.getElementById("shortLink").innerHTML=`${window.location.origin}/${reponse}`
           });
       }
     </script>
