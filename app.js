@@ -16,11 +16,11 @@ mongoose.connect(
 
 app.use(bodyParser.json());
 
-app.get("/",(req,res)=>{
+app.get("/",(req, res)=>{
     res.sendFile(__dirname + "/views/index.html");
 })
 
-app.post("/",(req,res)=>{
+app.post("/",(req, res)=>{
    // console.log("post request");
        var ojlLink = req.body.orjinalLink
        var kisaLink = ojlLink[ojlLink.length-2] + Date.now().toString().substring(9,4) + ojlLink[ojlLink.length-5]
@@ -37,7 +37,7 @@ app.post("/",(req,res)=>{
     res.json(kisaLink); // index.html burdaki veriyi respons olarak karşılayıp kısa linki ekrana yansıtacaktır
 })
 
-app.get("/:url",(req,res)=>{
+app.get("/:url",(req, res)=>{
     const url= req.params.url;
     console.log(url);
     Article.findOne({"kisaLink":url},(err,request)=>{
